@@ -40,7 +40,7 @@ def load_tag_to_idx():
 
 def load_word_to_idx():
     df = pd.read_csv(file_name, encoding="ISO-8859-1", error_bad_lines=False)
-    all_words = df['Tag'].unique().ravel()
+    all_words = df['Word'].unique().ravel()
     word_to_idx = {}
     for word in all_words:
         if word not in word_to_idx:
