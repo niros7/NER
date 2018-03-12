@@ -5,7 +5,7 @@ from trainer import *
 
 
 
-EPOCHS_NUM = 1
+EPOCHS_NUM = 2
 
 
 torch.manual_seed(1)

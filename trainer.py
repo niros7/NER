@@ -8,12 +8,12 @@ def train(model, epochs, data, optimizer):
     validationdata = data[training_data_length:]
     for epoch in range(epochs):
         loss_sum = 0
-        for idx, trainingdata in enumerate(trainingdata):
-            sentence, tags = trainingdata
+        for idx, curr_trainingdata in enumerate(trainingdata):
+            sentence, tags = curr_trainingdata
             model.zero_grad()
             neg_log_likelihood = model.neg_log_likelihood(sentence, tags)
             loss_sum += neg_log_likelihood
-            avg_loss= loss_sum / idx
+            avg_loss= loss_sum / idx+1
             print("epoch = %d, train= %d/%d ,avg_loss = %f" % (epoch, idx, training_data_length, avg_loss))
             neg_log_likelihood.backward()
             optimizer.step()
@@ -24,10 +24,11 @@ def train(model, epochs, data, optimizer):
 def validate(model,data):
     model.eval()
     loss_sum=0
-    for idx, data in enumerate(data):
-        sentence,tags = data
+    data_length = len(data)
+    for idx, curr_data in enumerate(data):
+        sentence,tags = curr_data
         model.zero_grad()
         neg_log_likelihood = model.neg_log_likelihood(sentence, tags)
         loss_sum += neg_log_likelihood
-        avg_loss = loss_sum / idx
-        print("Validation  train= %d/%d ,avg_loss = %f" % (idx, len(data), avg_loss))
+        avg_loss = loss_sum / idx+1
+        print("Validation  train= %d/%d ,avg_loss = %f" % (idx, data_length, avg_loss))
