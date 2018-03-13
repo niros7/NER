@@ -1,7 +1,6 @@
 import torch
 from torch import autograd
 from datetime import date
-import pickle
 
 START_TAG = "<START>"
 STOP_TAG = "<STOP>"
@@ -41,8 +40,8 @@ def load_checkpoint(filename, model=None):
         model.load_state_dict(checkpoint["state_dict"])
     epoch = checkpoint["epoch"]
     loss = checkpoint["loss"]
-    print("saved model: epoch = %d, loss = %f" % (checkpoint["epoch"], checkpoint["loss"]))
-    return epoch
+    print("saved model: epoch = %d, loss = %f" % (epoch, loss))
+    return epoch, checkpoint["train"], checkpoint["eval"]
 
 
 def save_checkpoint(model, epoch, loss, train_history, eval_histories):
@@ -53,10 +52,9 @@ def save_checkpoint(model, epoch, loss, train_history, eval_histories):
     checkpoint["state_dict"] = model.state_dict()
     checkpoint["epoch"] = epoch
     checkpoint["loss"] = loss
+    checkpoint["train"] = train_history
+    checkpoint["eval"] = eval_histories
     save_file_name = filename + ".epoch%d" % epoch
     torch.save(checkpoint, save_file_name)
-
-    with open(save_file_name + "history", 'wb') as file_pi:
-        pickle.dump((train_history, eval_histories), file_pi)
 
     print("saved model: epoch = %d, loss = %f" % (checkpoint["epoch"], checkpoint["loss"]))
