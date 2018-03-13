@@ -11,7 +11,7 @@ def train(model, epochs, data, optimizer):
     for epoch in range(1, epochs + 1):
         model.train(True)
         loss_sum = 0
-        for idx, curr_trainingdata in enumerate(trainingdata):
+        for idx, curr_trainingdata in enumerate(train_data):
             sentence, tags = curr_trainingdata
             model.zero_grad()
             neg_log_likelihood = model.neg_log_likelihood(sentence, tags)
@@ -37,8 +37,7 @@ def validate(model, eval_data):
     eval_history = []
     model.eval()
     loss_sum=0
-    data_length = len(data)
-    for idx, curr_data in enumerate(data):
+    for idx, curr_data in enumerate(eval_data):
         sentence,tags = curr_data
         model.zero_grad()
         neg_log_likelihood = model.neg_log_likelihood(sentence, tags)

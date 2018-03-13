@@ -14,7 +14,7 @@ class BiLSTM_CRF(nn.Module):
 
         self.word_embeds = nn.Embedding(vocab_size, embedding_dim)
         self.lstm = nn.LSTM(embedding_dim, hidden_dim // 2,
-                            num_layers=1, bidirectional=True)
+                            num_layers=2, bidirectional=True, dropout=0.4)
 
         # Maps the output of the LSTM into tag space.
         self.hidden2tag = nn.Linear(hidden_dim, self.tagset_size)
@@ -32,8 +32,8 @@ class BiLSTM_CRF(nn.Module):
         self.hidden = self.init_hidden()
 
     def init_hidden(self):
-        return (autograd.Variable(torch.randn(2, 1, self.hidden_dim // 2)),
-                autograd.Variable(torch.randn(2, 1, self.hidden_dim // 2)))
+        return (autograd.Variable(torch.randn(4, 1, self.hidden_dim // 2)),
+                autograd.Variable(torch.randn(4, 1, self.hidden_dim // 2)))
 
     def _forward_alg(self, feats):
         # Do the forward algorithm to compute the partition function
