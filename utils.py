@@ -1,12 +1,19 @@
 import torch
 from torch import autograd
 from datetime import date
+import data_loader
 
 START_TAG = "<START>"
 STOP_TAG = "<STOP>"
 EMBEDDING_DIM = 100
 HIDDEN_DIM = 4
 
+def convert_to_tags(result):
+    tags=[]
+    tag_to_idx=data_loader.load_tag_to_idx()
+    for numT in result[1]:
+        tags.extend( key for key, value in tag_to_idx.items() if value == numT)
+    return tags
 
 def to_scalar(var):
     # returns a python float
