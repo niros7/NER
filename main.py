@@ -12,7 +12,9 @@ if __name__ == "__main__":
     model = BiLSTM_CRF(len(word_to_idx), tag_to_idx, EMBEDDING_DIM)
     load_checkpoint("last", model)
     result = model(prepared_sentence)
-    # result_to_tag_names =
+    tags = convert_to_tags(result)
+    print(tags)
+
 
 EPOCHS_NUM = 1
 

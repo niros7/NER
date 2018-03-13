@@ -36,8 +36,8 @@ class BiLSTM_CRF(nn.Module):
         self.hidden = self.init_hidden()
 
     def init_hidden(self):
-        return (autograd.Variable(torch.randn(NUM_LAYERS * NUM_DIRS, 1, self.hidden_dim // NUM_DIRS)),
-                autograd.Variable(torch.randn(NUM_LAYERS * NUM_DIRS, 1, self.hidden_dim // NUM_DIRS)))
+        return (autograd.Variable(torch.randn(NUM_LAYERS * NUM_DIRS, 1, HIDDEN_DIM // NUM_DIRS)),
+                autograd.Variable(torch.randn(NUM_LAYERS * NUM_DIRS, 1, HIDDEN_DIM // NUM_DIRS)))
 
     def _forward_alg(self, feats):
         # Do the forward algorithm to compute the partition function

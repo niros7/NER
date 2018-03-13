@@ -7,12 +7,14 @@ START_TAG = "<START>"
 STOP_TAG = "<STOP>"
 EMBEDDING_DIM = 100
 
+
 def convert_to_tags(result):
-    tags=[]
-    tag_to_idx=data_loader.load_tag_to_idx()
+    tags = []
+    tag_to_idx = data_loader.load_tag_to_idx()
     for numT in result[1]:
-        tags.extend( key for key, value in tag_to_idx.items() if value == numT)
+        tags.extend(key for key, value in tag_to_idx.items() if value == numT)
     return tags
+
 
 def to_scalar(var):
     # returns a python float
@@ -25,9 +27,14 @@ def argmax(vec):
     return to_scalar(idx)
 
 
-def prepare_sequence(seq, to_ix):
-    idxs = [to_ix[w] for w in seq]
-    tensor = torch.LongTensor(idxs)
+def prepare_sequence(seq, to_idx):
+    word_tensor = []
+    for word in seq:
+        if word not in to_idx:
+            to_idx[word] = len(to_idx)
+        word_tensor.append(to_idx[word])
+
+    tensor = torch.LongTensor(word_tensor)
     return autograd.Variable(tensor)
 
 
