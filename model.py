@@ -3,21 +3,25 @@ import torch.autograd as autograd
 import torch.nn as nn
 from utils import *
 
+NUM_DIRS = 2
+NUM_LAYERS = 10
+HIDDEN_DIM = 30
+
+
 class BiLSTM_CRF(nn.Module):
-    def __init__(self, vocab_size, tag_to_ix, embedding_dim, hidden_dim):
+    def __init__(self, vocab_size, tag_to_ix, embedding_dim):
         super(BiLSTM_CRF, self).__init__()
         self.embedding_dim = embedding_dim
-        self.hidden_dim = hidden_dim
         self.vocab_size = vocab_size
         self.tag_to_ix = tag_to_ix
         self.tagset_size = len(tag_to_ix)
 
         self.word_embeds = nn.Embedding(vocab_size, embedding_dim)
-        self.lstm = nn.LSTM(embedding_dim, hidden_dim // 2,
-                            num_layers=2, bidirectional=True, dropout=0.4)
+        self.lstm = nn.LSTM(embedding_dim, HIDDEN_DIM // NUM_DIRS,
+                            num_layers=NUM_LAYERS, bidirectional=True, dropout=0.4)
 
         # Maps the output of the LSTM into tag space.
-        self.hidden2tag = nn.Linear(hidden_dim, self.tagset_size)
+        self.hidden2tag = nn.Linear(HIDDEN_DIM, self.tagset_size)
 
         # Matrix of transition parameters.  Entry i,j is the score of
         # transitioning *to* i *from* j.
@@ -32,8 +36,8 @@ class BiLSTM_CRF(nn.Module):
         self.hidden = self.init_hidden()
 
     def init_hidden(self):
-        return (autograd.Variable(torch.randn(4, 1, self.hidden_dim // 2)),
-                autograd.Variable(torch.randn(4, 1, self.hidden_dim // 2)))
+        return (autograd.Variable(torch.randn(NUM_LAYERS * NUM_DIRS, 1, self.hidden_dim // NUM_DIRS)),
+                autograd.Variable(torch.randn(NUM_LAYERS * NUM_DIRS, 1, self.hidden_dim // NUM_DIRS)))
 
     def _forward_alg(self, feats):
         # Do the forward algorithm to compute the partition function

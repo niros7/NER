@@ -9,10 +9,10 @@ if __name__ == "__main__":
     word_to_idx = load_word_to_idx()
     tag_to_idx = load_tag_to_idx()
     prepared_sentence = utils.prepare_sequence(sentence, word_to_idx)
-    model = BiLSTM_CRF(len(word_to_idx), tag_to_idx, EMBEDDING_DIM, HIDDEN_DIM)
+    model = BiLSTM_CRF(len(word_to_idx), tag_to_idx, EMBEDDING_DIM)
     load_checkpoint("last", model)
     result = model(prepared_sentence)
-    result_to_tag_names =
+    # result_to_tag_names =
 
 EPOCHS_NUM = 1
 

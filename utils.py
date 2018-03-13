@@ -5,7 +5,6 @@ from datetime import date
 START_TAG = "<START>"
 STOP_TAG = "<STOP>"
 EMBEDDING_DIM = 100
-HIDDEN_DIM = 4
 
 
 def to_scalar(var):
