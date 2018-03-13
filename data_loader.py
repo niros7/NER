@@ -5,6 +5,7 @@ import torch
 file_name = "ner_dataset.csv"
 
 
+
 def load_data(from_row, to_row):
     dframe = pd.read_csv(file_name, encoding="ISO-8859-1", error_bad_lines=False)
     df = dframe[from_row:to_row]

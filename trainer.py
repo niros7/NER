@@ -11,8 +11,8 @@ def train(model, epochs, data, optimizer):
     for epoch in range(1, epochs + 1):
         model.train(True)
         loss_sum = 0
-        for idx, curr_trainingdata in enumerate(train_data):
-            sentence, tags = curr_trainingdata
+        for idx, curr_training_data in enumerate(train_data):
+            sentence, tags = curr_training_data
             model.zero_grad()
             neg_log_likelihood = model.neg_log_likelihood(sentence, tags)
             loss_sum += neg_log_likelihood
