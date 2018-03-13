@@ -27,6 +27,16 @@ training_data_length = len(training_data)
 model, train_history, eval_histories = train(model, EPOCHS_NUM, training_data, optimizer)
 
 plot_training_loss(train_history, eval_histories)
+# we cant do that because training_data not contains sentences, it contains numbers
+precheck_sent = prepare_sequence(['have', 'London'], word_to_idx)
+result = model(precheck_sent)
+tags= convert_to_tags(result)
+print(tags)
 
 
+# we cant do that because training_data not contains sentences, it contains numbers
+precheck_sent = prepare_sequence(['have', 'London'], word_to_idx)
+result = model(precheck_sent)
+tags= convert_to_tags(result)
+print(tags)
 
